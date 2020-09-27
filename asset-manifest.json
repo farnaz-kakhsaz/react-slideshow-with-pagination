@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/live-slideshow/static/js/main.53515167.chunk.js",
-    "main.js.map": "/live-slideshow/static/js/main.53515167.chunk.js.map",
+    "main.js": "/live-slideshow/static/js/main.595686be.chunk.js",
+    "main.js.map": "/live-slideshow/static/js/main.595686be.chunk.js.map",
     "runtime-main.js": "/live-slideshow/static/js/runtime-main.bac14edc.js",
     "runtime-main.js.map": "/live-slideshow/static/js/runtime-main.bac14edc.js.map",
     "static/js/2.aad4d5c5.chunk.js": "/live-slideshow/static/js/2.aad4d5c5.chunk.js",
     "static/js/2.aad4d5c5.chunk.js.map": "/live-slideshow/static/js/2.aad4d5c5.chunk.js.map",
     "index.html": "/live-slideshow/index.html",
-    "precache-manifest.ef9043d7ae154db7c3146e276aa6c979.js": "/live-slideshow/precache-manifest.ef9043d7ae154db7c3146e276aa6c979.js",
+    "precache-manifest.acd0a8b148d02326c5bf1f435ae58aab.js": "/live-slideshow/precache-manifest.acd0a8b148d02326c5bf1f435ae58aab.js",
     "service-worker.js": "/live-slideshow/service-worker.js",
     "static/js/2.aad4d5c5.chunk.js.LICENSE.txt": "/live-slideshow/static/js/2.aad4d5c5.chunk.js.LICENSE.txt",
     "static/media/Dosis-Bold.ttf": "/live-slideshow/static/media/Dosis-Bold.ccb2ab50.ttf",
@@ -31,6 +31,6 @@
   "entrypoints": [
     "static/js/runtime-main.bac14edc.js",
     "static/js/2.aad4d5c5.chunk.js",
-    "static/js/main.53515167.chunk.js"
+    "static/js/main.595686be.chunk.js"
   ]
 }
