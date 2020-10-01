@@ -1,0 +1,47 @@
+{
+  "name": "react-slideshow-with-pagination-1",
+  "version": "1.0.9",
+  "description": "This is a fully responsive slideshow that can have pagination (numbers or dots) and arrows for changing screens.",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "peerDependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "@material-ui/core": "^4.11.0",
+    "react-swipeable-views": "^0.13.9"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "8.1.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "@material-ui/core": "^4.11.0",
+    "react-swipeable-views": "^0.13.9",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/farnaz-kakhsaz/react-slideshow-with-pagination.git"
+  },
+  "keywords": [
+    "react",
+    "material-ui",
+    "react-swipeable-views",
+    "slideshow",
+    "pagination",
+    "react-slideshow-with-pagination"
+  ],
+  "author": "Farnaz Kakhsaz <farnaz.kakhsaz@gmail.com> (https://github.com/farnaz-kakhsaz)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/farnaz-kakhsaz/react-slideshow-with-pagination/issues"
+  },
+  "homepage": "https://github.com/farnaz-kakhsaz/react-slideshow-with-pagination#readme"
+}
