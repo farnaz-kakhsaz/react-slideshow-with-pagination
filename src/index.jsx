@@ -1,108 +1,97 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-// Material-UI
-import Container from "@material-ui/core/Container";
-import Box from "@material-ui/core/Box";
-import SwipeableViews from "react-swipeable-views";
-import { autoPlay } from "react-swipeable-views-utils";
 // Components
-import Arrow from "./arrow.component.jsx";
-import PaginationNumber from "./pagination-number.component.jsx";
-import PaginationDot from "./pagination-dot.component.jsx";
+import Slideshow from "./components/slideshow/slideshow.component";
+import Card from "./components/card/card.component";
+import { splitToChunks } from "./helper/splitToChunks";
+// Material-UI
+import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
+import Grid from "@material-ui/core/Grid";
 
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
-
-export default function Slideshow({
-  children,
+function SlideshowWithPagination({
+  width,
   options,
-  showDots,
-  showNumbers,
-  showArrows,
-  paginationMarginTop,
+  children,
+  numberOfCardsPerScreen,
+  imageContainerJustify,
+  imageMaxWidth,
+  imageMaxHeight,
+  ...rest
 }) {
-  const [activeStep, setActiveStep] = useState(0);
+  const [oneCardPerScreen, setOneCardPerScreen] = useState(options);
+  const [multipleCardsPerScreen, setMultipleCardPerScreen] = useState(
+    splitToChunks(
+      options ? options : [],
+      numberOfCardsPerScreen ? numberOfCardsPerScreen : 3
+    )
+  );
 
-  function handleStepChange(step) {
-    setActiveStep(step);
-  }
-
-  const handleArrowClick = (position) => (event) => {
-    if (position === "right") {
-      const step = activeStep + 1 > options.length - 1 ? 0 : activeStep + 1;
-      setActiveStep(step);
-    } else if (position === "left") {
-      const step = activeStep - 1 < 0 ? options.length - 1 : activeStep - 1;
-      setActiveStep(step);
+  useEffect(() => {
+    if (options) {
+      setOneCardPerScreen(options);
+      setMultipleCardPerScreen(
+        splitToChunks(
+          options,
+          numberOfCardsPerScreen ? numberOfCardsPerScreen : 3
+        )
+      );
     }
-  };
-
-  const handleDotClick = (step) => (event) => {
-    setActiveStep(step);
-  };
+  }, [options]);
 
   return (
-    <>
-      <Box position="relative" maxWidth="100%">
-        {showArrows && <Arrow handleArrowClick={handleArrowClick} />}
-        <Container>
-          <AutoPlaySwipeableViews
-            axis={"x"}
-            index={activeStep}
-            onChangeIndex={handleStepChange}
-            enableMouseEvents
-            interval={6000}
-            springConfig={{
-              duration: "1s",
-              easeFunction: "ease-in-out",
-              delay: "0s",
-            }}
-          >
-            {options.map((item, index) => {
-              return (
-                <Box display="flex" justifyContent="center" key={index}>
-                  {children(item)}
-                </Box>
-              );
-            })}
-          </AutoPlaySwipeableViews>
-        </Container>
-      </Box>
-      {showDots && (
-        <Box display="flex" justifyContent="center" mt={paginationMarginTop}>
-          {showDots &&
-            options.map((item, index) => (
-              <PaginationDot
-                dots={options.length}
-                activeDot={index === activeStep}
-                index={index}
-                handleDotClick={handleDotClick}
+    <Slideshow
+      options={
+        children
+          ? children
+          : isWidthDown("md", width)
+          ? oneCardPerScreen
+          : multipleCardsPerScreen
+      }
+      childrenArray={children}
+      {...rest}
+    >
+      {children
+        ? children
+        : (item, index) =>
+            isWidthDown("md", width) ? (
+              <Card
+                image={item.image}
+                title={item.title}
+                imageMaxWidth={imageMaxWidth ? imageMaxWidth : 375}
+                imageMaxHeight={imageMaxHeight ? imageMaxHeight : 234}
                 key={index}
               />
-            ))}
-        </Box>
-      )}
-      {showNumbers && (
-        <Box display="flex" justifyContent="center" mt={paginationMarginTop}>
-          {showNumbers && (
-            <PaginationNumber
-              totalNumber={options.length}
-              activeStep={activeStep + 1}
-            />
-          )}
-        </Box>
-      )}
-    </>
+            ) : (
+              <Grid
+                container
+                justify={
+                  imageContainerJustify ? imageContainerJustify : "space-evenly"
+                }
+                key={index}
+              >
+                {item.map((item, index) => (
+                  <Card
+                    image={item.image}
+                    title={item.title}
+                    imageMaxWidth={imageMaxWidth ? imageMaxWidth : 375}
+                    imageMaxHeight={imageMaxHeight ? imageMaxHeight : 234}
+                    key={index}
+                  />
+                ))}
+              </Grid>
+            )}
+    </Slideshow>
   );
 }
 
-Slideshow.propTypes = {
-  children: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired,
-  showDots: PropTypes.bool,
-  showNumbers: PropTypes.bool,
-  showArrows: PropTypes.bool,
-  paginationMarginTop: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.object,
-  ]),
+export default withWidth()(SlideshowWithPagination);
+
+SlideshowWithPagination.propTypes = {
+  options: PropTypes.array,
+  children: PropTypes.array,
+  width: PropTypes.string.isRequired,
+  numberOfCardsPerScreen: PropTypes.number,
+  imageContainerJustify: PropTypes.string,
+  imageMaxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  imageMaxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
