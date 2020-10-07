@@ -4,8 +4,9 @@ module.exports = {
   mode: "production",
   entry: "./src/index.jsx",
   output: {
-    path: path.resolve("lib"),
+    path: path.resolve(__dirname, "lib"),
     filename: "index.js",
+    library: "react-slideshow-with-pagination",
     libraryTarget: "commonjs2",
   },
   module: {
@@ -25,17 +26,22 @@ module.exports = {
   },
   externals: {
     // Don't bundle react or react-dom
+    // In this case, we'd prefer to treat 'React' and 'ReactDOM' as a peerDependency.
+    // Meaning that the consumer should already have them installed.
     react: {
+      root: "React",
       commonjs: "react",
       commonjs2: "react",
-      amd: "React",
-      root: "React",
+      amd: "react",
     },
     "react-dom": {
+      root: "ReactDOM",
       commonjs: "react-dom",
       commonjs2: "react-dom",
-      amd: "ReactDOM",
-      root: "ReactDOM",
+      amd: "react-dom",
     },
+  },
+  resolve: {
+    extensions: ["*", ".js", ".jsx"],
   },
 };
