@@ -6,7 +6,7 @@
 /src
 
 # configuration
-.webpack.config.js
+webpack.config.js
 .babelrc
 .gitignore
 
