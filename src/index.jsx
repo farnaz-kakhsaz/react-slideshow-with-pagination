@@ -1,84 +1,106 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense, lazy } from "react";
 import PropTypes from "prop-types";
 // Components
-import Slideshow from "./components/slideshow/slideshow.component";
-import Card from "./components/card/card.component";
+import Slideshow from "./components/slideshow/slideshow";
+import GridBase from "./components/items-base/grid-base/grid-base";
+import CircularProgress from "../items-base/circular-progress-base/circular-progress-base";
 import { splitToChunks } from "./helper/splitToChunks";
 // Material-UI
 import withWidth, { isWidthDown } from "@material-ui/core/withWidth";
-import Grid from "@material-ui/core/Grid";
+// Code Split (Components)
+const Card = lazy(() => import("./components/card/card.component"));
 
 function SlideshowWithPagination({
   width,
-  options,
+  options = [],
   children,
-  numberOfCardsPerScreen,
-  imageContainerJustify,
-  imageMaxWidth,
-  imageMaxHeight,
+  autoPlay = true,
+  enableMouseEvents = true,
+  numberOfCardsPerScreen = 3,
+  showOneCardForWidthLower = "md",
+  slideshowContainerMaxWidth = "lg",
+  cardsContainerJustify = "space-around",
+  cardWidth = 390,
+  cardHeight = 245,
+  cardMarginX = 0,
+  cardMarginY = 0,
+  textColor = "rgba(0, 0, 0, 0.87)",
+  lightColorBtn = "#bdbdbd",
+  darkColorBtn = "#616161",
+  paginationMarginTop = 3,
+  interval = 5000,
+  springConfig = {
+    duration: "1s",
+    easeFunction: "ease-in-out",
+    delay: "0s",
+  },
   ...rest
 }) {
   const [oneCardPerScreen, setOneCardPerScreen] = useState(options);
   const [multipleCardsPerScreen, setMultipleCardPerScreen] = useState(
-    splitToChunks(
-      options ? options : [],
-      numberOfCardsPerScreen ? numberOfCardsPerScreen : 3
-    )
+    splitToChunks(options, numberOfCardsPerScreen)
   );
 
   useEffect(() => {
-    if (options) {
+    if (options.length) {
       setOneCardPerScreen(options);
-      setMultipleCardPerScreen(
-        splitToChunks(
-          options,
-          numberOfCardsPerScreen ? numberOfCardsPerScreen : 3
-        )
-      );
+      setMultipleCardPerScreen(splitToChunks(options, numberOfCardsPerScreen));
     }
-  }, [options]);
+  }, [options, numberOfCardsPerScreen]);
 
   return (
     <Slideshow
       options={
         children
           ? children
-          : isWidthDown("md", width)
+          : isWidthDown(showOneCardForWidthLower, width)
           ? oneCardPerScreen
           : multipleCardsPerScreen
       }
       childrenArray={children}
+      slideshowContainerMaxWidth={slideshowContainerMaxWidth}
+      autoPlay={autoPlay}
+      enableMouseEvents={enableMouseEvents}
+      textColor={textColor}
+      lightColorBtn={lightColorBtn}
+      darkColorBtn={darkColorBtn}
+      paginationMarginTop={paginationMarginTop}
+      interval={interval}
+      springConfig={springConfig}
       {...rest}
     >
       {children
         ? children
         : (item, index) =>
-            isWidthDown("md", width) ? (
-              <Card
-                image={item.image}
-                title={item.title}
-                imageMaxWidth={imageMaxWidth ? imageMaxWidth : 375}
-                imageMaxHeight={imageMaxHeight ? imageMaxHeight : 234}
-                key={index}
-              />
+            isWidthDown(showOneCardForWidthLower, width) ? (
+              <Suspense fallback={<CircularProgress />} key={index}>
+                <Card
+                  image={item.image}
+                  title={item.title}
+                  cardWidth={cardWidth}
+                  cardHeight={cardHeight}
+                  cardMarginX={cardMarginX}
+                  cardMarginY={cardMarginY}
+                  textColor={textColor}
+                  showOneCard
+                />
+              </Suspense>
             ) : (
-              <Grid
-                container
-                justify={
-                  imageContainerJustify ? imageContainerJustify : "space-evenly"
-                }
-                key={index}
-              >
+              <GridBase container justify={cardsContainerJustify} key={index}>
                 {item.map((item, index) => (
-                  <Card
-                    image={item.image}
-                    title={item.title}
-                    imageMaxWidth={imageMaxWidth ? imageMaxWidth : 375}
-                    imageMaxHeight={imageMaxHeight ? imageMaxHeight : 234}
-                    key={index}
-                  />
+                  <Suspense fallback={<CircularProgress />} key={index}>
+                    <Card
+                      image={item.image}
+                      title={item.title}
+                      cardWidth={cardWidth}
+                      cardHeight={cardHeight}
+                      cardMarginX={cardMarginX}
+                      cardMarginY={cardMarginY}
+                      textColor={textColor}
+                    />
+                  </Suspense>
                 ))}
-              </Grid>
+              </GridBase>
             )}
     </Slideshow>
   );
@@ -90,8 +112,35 @@ SlideshowWithPagination.propTypes = {
   options: PropTypes.array,
   children: PropTypes.array,
   width: PropTypes.string.isRequired,
+  autoPlay: PropTypes.bool,
+  enableMouseEvents: PropTypes.bool,
   numberOfCardsPerScreen: PropTypes.number,
-  imageContainerJustify: PropTypes.string,
-  imageMaxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  imageMaxHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  showOneCardForWidthLower: PropTypes.string,
+  slideshowContainerMaxWidth: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]),
+  cardsContainerJustify: PropTypes.string,
+  cardWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  cardHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  cardMarginX: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+    PropTypes.object,
+  ]),
+  cardMarginY: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+    PropTypes.object,
+  ]),
+  textColor: PropTypes.string,
+  lightColorBtn: PropTypes.string,
+  darkColorBtn: PropTypes.string,
+  paginationMarginTop: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object,
+  ]),
+  interval: PropTypes.number,
+  springConfig: PropTypes.object,
+  rest: PropTypes.any,
 };
