@@ -2,6 +2,11 @@
   "name": "react-slideshow-with-pagination",
   "version": "1.0.0",
   "description": "This is a fully responsive slideshow that can have pagination (numbers or dots) and arrows for changing screens.",
+  "author": {
+    "name": "Farnaz Kakhsaz",
+    "email": "farnaz.kakhsaz@gmail.com",
+    "url": "https://github.com/farnaz-kakhsaz"
+  },
   "main": "./lib/index.js",
   "scripts": {
     "build": "webpack"
@@ -38,7 +43,6 @@
     "pagination",
     "react-slideshow-with-pagination"
   ],
-  "author": "Farnaz Kakhsaz <farnaz.kakhsaz@gmail.com> (https://github.com/farnaz-kakhsaz)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/farnaz-kakhsaz/react-slideshow-with-pagination/issues"
