@@ -1,8 +1,10 @@
 # React Slideshow with Pagination
 
+> You can check out the [farnaz-kakhsaz.github.io/live-slideshow](https://farnaz-kakhsaz.github.io/live-slideshow) demo (from [Live Slideshow](https://github.com/farnaz-kakhsaz/live-slideshow) repository) that was created to show this library's potentials in action.
+
 ![Slideshow Screenshots](https://user-images.githubusercontent.com/37678729/100906760-c5274000-34de-11eb-9660-8c6f96c89676.png)
 
-The [react-slideshow-with-pagination](https://github.com/farnaz-kakhsaz/react-slideshow-with-pagination) can have pagination (numbers or dots) and arrow buttons for changing screens and dozens of other feature that help to customize the slideshow as much as possible. Also, check out the [demo](https://farnaz-kakhsaz.github.io/live-slideshow/) from a mobile device (real or emulated) it's fully responsive.
+The `react-slideshow-with-pagination` can have pagination (numbers or dots) and arrow buttons for changing screens and dozens of other feature that help to customize the slideshow as much as possible. Also, check out the [demo](https://farnaz-kakhsaz.github.io/live-slideshow/) from a mobile device (real or emulated) it's fully responsive.
 
 <img src="https://user-images.githubusercontent.com/37678729/100887466-40cac200-34ca-11eb-861e-a98ca4d296cf.gif" alt="Responsive Slideshow" width="100%">
 
