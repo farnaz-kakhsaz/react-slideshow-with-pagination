@@ -9,7 +9,8 @@
   },
   "main": "./lib/index.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "publish": "npm run build && npm publish"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",
