@@ -3,9 +3,9 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   mode: "production",
-  entry: "./src/index.jsx",
+  entry: path.resolve(__dirname, "./src/index.jsx"),
   output: {
-    path: path.resolve(__dirname, "lib"),
+    path: path.resolve(__dirname, "./lib"),
     filename: "index.js",
     library: "react-slideshow-with-pagination",
     libraryTarget: "commonjs2",
@@ -20,12 +20,14 @@ module.exports = {
     ],
   },
   resolve: {
+    extensions: ["*", ".js", ".jsx"],
     alias: {
       react: path.resolve(__dirname, "./node_modules/react"),
       "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
     },
   },
   externals: {
+    // Use external version of React:
     // Don't bundle react or react-dom
     // In this case, we'd prefer to treat 'React' and 'ReactDOM' as a peerDependency.
     // Meaning that the consumer should already have them installed.
@@ -41,9 +43,6 @@ module.exports = {
       commonjs2: "react-dom",
       amd: "react-dom",
     },
-  },
-  resolve: {
-    extensions: ["*", ".js", ".jsx"],
   },
   plugins: [new CleanWebpackPlugin()],
 };
